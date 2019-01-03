@@ -1,0 +1,25 @@
+{
+  "license": "MIT",
+  "author": "Darijusch Behbahani <dari@gosus.com>",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --config webpack.dev.config.js --watch",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "clean-webpack-plugin": "^1.0.0",
+    "jest": "^23.6.0",
+    "regenerator-runtime": "^0.13.1",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}
