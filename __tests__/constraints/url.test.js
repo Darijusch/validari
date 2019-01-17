@@ -1,5 +1,37 @@
 import url from '../../src/constraints/url';
 
+test('value is number', () => {
+    expect(() => url(4343)).toThrow();
+});
+
+test('value is null', () => {
+    expect(url(null)).toBe(undefined);
+});
+
+test('value is undefined', () => {
+    expect(url(undefined)).toBe(undefined);
+});
+
+test('value is empty string', () => {
+    expect(url('')).toBe(undefined);
+});
+
+test('value is object', () => {
+    expect(url({})).toBe('This value is not a valid URL.');
+});
+
+test('value is object with valid toString', () => {
+    const obj = {};
+    obj.toString = () => 'https://www.google.com';
+    expect(url(obj)).toBe(undefined);
+});
+
+test('value is object with toString returning empty string', () => {
+    const obj = {};
+    obj.toString = () => '';
+    expect(url(obj)).toBe(undefined);
+});
+
 describe('url with dataset relative protocols false valid urls', () => {
     test.each([
         ['http://a.pl', undefined],

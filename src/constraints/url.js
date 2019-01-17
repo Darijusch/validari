@@ -1,11 +1,19 @@
 import { formatMessage } from './../utils/format';
+import {UnexpectedValueException} from './exceptions';
 
 const url = (value, {
     message = 'This value is not a valid URL.',
     protocols  = ['http', 'https'],
     relativeProtocol = false
 } = {}) => {
-    if (typeof value !== 'string' || value.length === 0) {
+    if (value === null || value === undefined || value === '') {
+        return;
+    }
+    if (typeof value !== 'string' && typeof value !== 'object') {
+        throw new UnexpectedValueException(value, 'string');
+    }
+    value = value.toString();
+    if (value === '') {
         return;
     }
     const joinedProtocols = protocols.join('|');
