@@ -1,5 +1,11 @@
 import count from '../../src/constraints/count';
 
+describe('missing required values', () => {
+    test('value is number', () => {
+        expect(() => count(4343)).toThrow('Either option "min" or "max" must be given for constraint length');
+    });
+});
+
 describe('testValid', () => {
     test.each([
         [undefined, { max: 6 }],

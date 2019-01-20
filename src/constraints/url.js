@@ -1,5 +1,5 @@
 import { formatMessage } from './../utils/format';
-import {UnexpectedValueException} from './exceptions';
+import { UnexpectedValueException } from './exceptions';
 
 const url = (value, {
     message = 'This value is not a valid URL.',

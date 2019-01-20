@@ -8,6 +8,8 @@ describe('greaterThan with dataset', () => {
         [2, { value: 2 }, 'This value should be greater than 2.'],
         ['22', { value: '333' }, 'This value should be greater than 333.'],
         ['22', { value: '22' }, 'This value should be greater than 22.'],
+        ['333', undefined, undefined],
+        ['22', { value: '22', message: 'Test value {{ value }}' }, 'Test value 22'],
     ])(
         'greaterThan(%s, %o) should return %s',
         (value, options, expected) => {

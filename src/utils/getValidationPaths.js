@@ -1,3 +1,5 @@
+import { isObject } from './index';
+
 const getValidationPaths = (data, validationPath, iterator = '$') => {
     const validationPaths = [];
     if (validationPath.indexOf(`.${iterator}`) === -1) {
@@ -14,7 +16,7 @@ const getValidationPaths = (data, validationPath, iterator = '$') => {
                 const newKey = (currentKey ? currentKey + "." + key : key);
                 if (re.test(newKey)) {
                     validationPaths.push(`${newKey}${remainder}`);
-                } else if(value && typeof value === "object") {
+                } else if(isObject(value)) {
                     addPathRecursive(value, newKey);
                 }
             });
