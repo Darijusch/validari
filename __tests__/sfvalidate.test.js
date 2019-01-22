@@ -1,146 +1,165 @@
-import sfvalidate from '../src/sfvalidate';
+import sfvalidate from "../src/sfvalidate";
 
-describe('sfvalidate', () => {
-    test('wrong data type for data', () => {
-        expect(() => sfvalidate.validate()).toThrow('can only validate objects');
+describe("sfvalidate", () => {
+    test("wrong data type for data", () => {
+        expect(() => sfvalidate.validate()).toThrow(
+            'Expected argument of type "object", "undefined" given'
+        );
     });
-    test('wrong data type for validator schema', () => {
-        expect(() => sfvalidate.validate({})).toThrow('validator schema can only be an object');
+    test("wrong data type for validator schema", () => {
+        expect(() => sfvalidate.validate({})).toThrow(
+            'Expected argument of type "object", "undefined" given'
+        );
     });
 
-    test('validate entity', () => {
-        expect(sfvalidate.validate(
-            {
-                test: 'value',
-                foo: [
-                    {
-                        bar: 'baz'
-                    }
-                ],
-                values: [1, 2, 3],
-                funcTest: 'test',
-                baz: 'a',
-            },
-            {
-                'test': {
-                    notBlank: true,
+    test("validate entity", () => {
+        expect(
+            sfvalidate.validate(
+                {
+                    test: "value",
+                    foo: [
+                        {
+                            bar: "baz"
+                        }
+                    ],
+                    values: [1, 2, 3],
+                    funcTest: "test",
+                    baz: "a"
                 },
-                'foo.$.bar': {
-                    notBlank: true,
-                },
-                'values.$': {
-                    greaterThan: {
-                        value: 2,
-                    }
-                },
-                'bar': {
-                    notBlank: true,
-                },
-                'baz': {
-                    length: {
-                        min: 2
+                {
+                    test: {
+                        notBlank: true
                     },
-                    greaterThan: {
-                        value: 'test',
-                    }
-                },
-                funcTest: () => ({
-                    notBlank: true,
-                    length: {
-                        min: 5,
+                    "foo.$.bar": {
+                        notBlank: true
                     },
-                })
-            },
-        )).toEqual({
-            bar: ['This value should not be blank.'],
-            'values.0': ['This value should be greater than 2.'],
-            'values.1': ['This value should be greater than 2.'],
-            funcTest: ['This value is too short. It should have 5 characters or more.'],
-            'baz': ['This value is too short. It should have 2 characters or more.', 'This value should be greater than test.']
+                    "values.$": {
+                        greaterThan: {
+                            value: 2
+                        }
+                    },
+                    bar: {
+                        notBlank: true
+                    },
+                    baz: {
+                        length: {
+                            min: 2
+                        },
+                        greaterThan: {
+                            value: "test"
+                        }
+                    },
+                    funcTest: () => ({
+                        notBlank: true,
+                        length: {
+                            min: 5
+                        }
+                    })
+                }
+            )
+        ).toEqual({
+            bar: ["This value should not be blank."],
+            "values.0": ["This value should be greater than 2."],
+            "values.1": ["This value should be greater than 2."],
+            funcTest: [
+                "This value is too short. It should have 5 characters or more."
+            ],
+            baz: [
+                "This value is too short. It should have 2 characters or more.",
+                "This value should be greater than test."
+            ]
         });
     });
 
-    test('validate entity with result is not object for validator response', () => {
-        expect(sfvalidate.validate(
-            {
-                funcTest: 'test',
-            },
-            {
-                funcTest: () => 'test',
-            },
-        )).toEqual({});
-    });
-
-    test('validate entity with non existing validator', () => {
-        expect(sfvalidate.validate(
-            {
-                foo: 'bar',
-            },
-            {
-                foo: {
-                    notExistingValidator: true,
+    test("validate entity with result is not object for validator response", () => {
+        expect(
+            sfvalidate.validate(
+                {
+                    funcTest: "test"
+                },
+                {
+                    funcTest: () => "test"
                 }
-            },
-        )).toEqual({});
+            )
+        ).toEqual({});
     });
 
-    test('validate entity with groups', () => {
-        expect(sfvalidate.validate(
-            {
-                test: 'value',
-                foo: [
-                    {
-                        bar: 'baz'
+    test("validate entity with non existing validator", () => {
+        expect(
+            sfvalidate.validate(
+                {
+                    foo: "bar"
+                },
+                {
+                    foo: {
+                        notExistingValidator: true
                     }
-                ],
-                values: [1, 2, 3],
-                funcTest: 'test',
-                baz: 'a',
-            },
-            {
-                'test': {
-                    notBlank: true,
-                    groups: ['myGroup', 'default']
+                }
+            )
+        ).toEqual({});
+    });
+
+    test("validate entity with groups", () => {
+        expect(
+            sfvalidate.validate(
+                {
+                    test: "value",
+                    foo: [
+                        {
+                            bar: "baz"
+                        }
+                    ],
+                    values: [1, 2, 3],
+                    funcTest: "test",
+                    baz: "a"
                 },
-                'foo.$.bar': {
-                    notBlank: true,
-                },
-                'values.$': {
-                    greaterThan: {
-                        value: 2,
-                        groups: ['doNotValidate']
-                    }
-                },
-                'bar': {
-                    notBlank: true,
-                },
-                'baz': {
-                    length: {
-                        min: 2,
-                        groups: ['myGroup'],
+                {
+                    test: {
+                        notBlank: true,
+                        groups: ["myGroup", "default"]
                     },
-                    greaterThan: {
-                        value: 'test',
-                        groups: ['myGroup'],
-                    }
-                },
-                funcTest: () => ({
-                    notBlank: true,
-                    length: {
-                        min: 5,
+                    "foo.$.bar": {
+                        notBlank: true
                     },
-                })
-            },
-            {
-                groups: [
-                    'default', 'myGroup',
-                ]
-            }
-        )).toEqual({
-            bar: ['This value should not be blank.'],
-            funcTest: ['This value is too short. It should have 5 characters or more.'],
-            'baz': ['This value is too short. It should have 2 characters or more.', 'This value should be greater than test.']
+                    "values.$": {
+                        greaterThan: {
+                            value: 2,
+                            groups: ["doNotValidate"]
+                        }
+                    },
+                    bar: {
+                        notBlank: true
+                    },
+                    baz: {
+                        length: {
+                            min: 2,
+                            groups: ["myGroup"]
+                        },
+                        greaterThan: {
+                            value: "test",
+                            groups: ["myGroup"]
+                        }
+                    },
+                    funcTest: () => ({
+                        notBlank: true,
+                        length: {
+                            min: 5
+                        }
+                    })
+                },
+                {
+                    groups: ["default", "myGroup"]
+                }
+            )
+        ).toEqual({
+            bar: ["This value should not be blank."],
+            funcTest: [
+                "This value is too short. It should have 5 characters or more."
+            ],
+            baz: [
+                "This value is too short. It should have 2 characters or more.",
+                "This value should be greater than test."
+            ]
         });
     });
 });
-

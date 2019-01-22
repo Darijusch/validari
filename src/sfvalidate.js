@@ -1,42 +1,61 @@
-import * as constraints from './constraints';
-import getValidationPaths from './utils/getValidationPaths';
-import { GROUP_DEFAULT } from './utils/constants';
-import {isFunction, isObject, hasIntersection, get} from './utils';
+import * as constraints from "./constraints";
+import getValidationPaths from "./utils/getValidationPaths";
+import { GROUP_DEFAULT } from "./utils/constants";
+import { isFunction, isObject, hasIntersection, get } from "./utils";
+import { UnexpectedTypeException } from "./constraints/exceptions";
+
+const sfvalidate = {
+    constraints,
+    iterator: "$",
+    validate: null
+};
 
 const validate = (data, schema, options = {}, errors = {}) => {
     if (!isObject(data)) {
-        throw 'can only validate objects';
+        throw new UnexpectedTypeException(data, "object");
     }
     if (!isObject(schema)) {
-        throw 'validator schema can only be an object';
+        throw new UnexpectedTypeException(schema, "object");
     }
     const groups = options.groups || [GROUP_DEFAULT];
-    Object.keys(schema).forEach((validatePath) => {
+    Object.keys(schema).forEach(validatePath => {
         let validators = schema[validatePath];
-        const validationPaths = getValidationPaths(data, validatePath, sfvalidate.iterator);
-        validationPaths.forEach((path) => {
+        const validationPaths = getValidationPaths(
+            data,
+            validatePath,
+            sfvalidate.iterator
+        );
+        validationPaths.forEach(path => {
             const value = get(data, path);
             if (isFunction(validators)) {
-                const returnedValidators = validators(value, path, data, schema, errors);
+                const returnedValidators = validators(
+                    value,
+                    path,
+                    data,
+                    schema,
+                    errors
+                );
                 if (isObject(returnedValidators)) {
                     validators = returnedValidators;
                 }
             }
-            Object.keys(validators).forEach((validatorName) => {
-                const options = validators[validatorName];
-                const validatorGroups = Array.isArray(options.groups) ? options.groups : [GROUP_DEFAULT];
+            Object.keys(validators).forEach(validatorName => {
+                const validatorOptions = validators[validatorName];
+                const validatorGroups = Array.isArray(validatorOptions.groups)
+                    ? validatorOptions.groups
+                    : [GROUP_DEFAULT];
                 if (!hasIntersection(groups, validatorGroups)) {
                     return;
                 }
                 const validator = sfvalidate.constraints[validatorName];
                 if (validator) {
-                    const error = validator(value, options, {
+                    const error = validator(value, validatorOptions, {
                         validate,
                         errors,
                         path,
                         data,
                         schema,
-                        options,
+                        options
                     });
                     if (error) {
                         if (!errors[path]) {
@@ -51,12 +70,6 @@ const validate = (data, schema, options = {}, errors = {}) => {
     return errors;
 };
 
-const sfvalidate = {
-    validate,
-    constraints: {
-        ...constraints,
-    },
-    iterator: '$',
-};
+sfvalidate.validate = validate;
 
 export default sfvalidate;
