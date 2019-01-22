@@ -10,6 +10,7 @@ Build
 
 TODOs
 ----- 
-- remove whole lodash (currently only get is left)
+- write documentation
 - add more symfony validators
-- add more handling when passing invalid datatypes for parameters/values 
+- add more handling when passing invalid data types for parameters/values
+- add code style and format code 
