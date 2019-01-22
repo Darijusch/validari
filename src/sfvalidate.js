@@ -1,9 +1,7 @@
-import forEach from 'lodash/forEach';
 import * as constraints from './constraints';
-import get from 'lodash/get';
 import getValidationPaths from './utils/getValidationPaths';
 import { GROUP_DEFAULT } from './utils/constants';
-import {isFunction, isObject, hasIntersection} from './utils';
+import {isFunction, isObject, hasIntersection, get} from './utils';
 
 const validate = (data, schema, options = {}, errors = {}) => {
     if (!isObject(data)) {
@@ -13,7 +11,8 @@ const validate = (data, schema, options = {}, errors = {}) => {
         throw 'validator schema can only be an object';
     }
     const groups = options.groups || [GROUP_DEFAULT];
-    forEach(schema, ( validators, validatePath) => {
+    Object.keys(schema).forEach((validatePath) => {
+        let validators = schema[validatePath];
         const validationPaths = getValidationPaths(data, validatePath, sfvalidate.iterator);
         validationPaths.forEach((path) => {
             const value = get(data, path);
@@ -23,7 +22,8 @@ const validate = (data, schema, options = {}, errors = {}) => {
                     validators = returnedValidators;
                 }
             }
-            forEach(validators, (options, validatorName) => {
+            Object.keys(validators).forEach((validatorName) => {
+                const options = validators[validatorName];
                 const validatorGroups = Array.isArray(options.groups) ? options.groups : [GROUP_DEFAULT];
                 if (!hasIntersection(groups, validatorGroups)) {
                     return;

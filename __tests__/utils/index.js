@@ -1,4 +1,4 @@
-import {hasIntersection, intersect, isFunction, isObject} from '../../src/utils';
+import {hasIntersection, intersect, isFunction, isObject, get} from '../../src/utils';
 
 describe('isFunction', () => {
     test('isFunction with undefined', () => {
@@ -72,4 +72,59 @@ describe('hasIntersection', () => {
     test('with empty array', () => {
         expect(hasIntersection([], [])).toBeFalsy();
     })
+});
+
+describe('get', () => {
+    test('get with nested object reaching the end', () => {
+        expect(get({
+            foo: {
+                bar: {
+                    baz: 'reached'
+                }
+            }
+        }, 'foo.bar.baz')).toEqual('reached');
+    });
+
+    test('get with nested object and array elements reaching the end', () => {
+        expect(get({
+            foo: {
+                bar: [
+                    'reached',
+                ],
+            }
+        }, 'foo.bar.0')).toEqual('reached');
+    });
+
+    test('get simple object and having complex path', () => {
+        expect(get({
+            foo: 'reached'
+
+        }, 'foo.bar.0')).toBeUndefined();
+    });
+
+    test('get simple object and having complex path and defaultValue', () => {
+        expect(get({
+            foo: 'reached'
+
+        }, 'foo.bar.0', 'end')).toEqual('end');
+    });
+
+    test('get with nested object and array elements reaching the end and defaultValue', () => {
+        expect(get({
+            foo: undefined
+
+        }, 'foo', 'end')).toEqual('end');
+    });
+
+    test('get with undefined object', () => {
+        expect(get(undefined, 'test', 'end')).toEqual('end');
+    });
+
+    test('get with undefined path', () => {
+        expect(get({}, undefined, 'end')).toEqual('end');
+    });
+
+    test('get with empty path', () => {
+        expect(get({}, '', 'end')).toEqual('end');
+    });
 });
