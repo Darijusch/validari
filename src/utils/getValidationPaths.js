@@ -1,6 +1,6 @@
-import { isObject } from "./index";
+import { isObject } from './index';
 
-const getValidationPaths = (data, validationPath, iterator = "$") => {
+const getValidationPaths = (data, validationPath, iterator = '$') => {
     const validationPaths = [];
     if (validationPath.indexOf(`.${iterator}`) === -1) {
         validationPaths.push(validationPath);
@@ -8,7 +8,7 @@ const getValidationPaths = (data, validationPath, iterator = "$") => {
         const lastIterator = validationPath.lastIndexOf(`.${iterator}`);
         const matchString = validationPath.substring(0, lastIterator + 2);
         const remainder = validationPath.substring(lastIterator + 2);
-        const re = new RegExp(`^${matchString.replace(iterator, "[^.]")}$`);
+        const re = new RegExp(`^${matchString.replace(iterator, '[^.]')}$`);
 
         const addPathRecursive = (obj, currentKey) => {
             Object.keys(obj).forEach(key => {

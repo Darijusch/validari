@@ -1,40 +1,30 @@
-import * as constraints from "./constraints";
-import getValidationPaths from "./utils/getValidationPaths";
-import { GROUP_DEFAULT } from "./utils/constants";
-import { isFunction, isObject, hasIntersection, get } from "./utils";
-import { UnexpectedTypeException } from "./constraints/exceptions";
+import * as constraints from './constraints';
+import getValidationPaths from './utils/getValidationPaths';
+import { GROUP_DEFAULT } from './utils/constants';
+import { isFunction, isObject, hasIntersection, get } from './utils';
+import { UnexpectedTypeException } from './constraints/exceptions';
 
 const sfvalidate = {
     constraints,
-    iterator: "$",
-    validate: null
+    iterator: '$',
+    validate: null,
 };
 
 const validate = (data, schema, options = {}, errors = {}) => {
     if (!isObject(data)) {
-        throw new UnexpectedTypeException(data, "object");
+        throw new UnexpectedTypeException(data, 'object');
     }
     if (!isObject(schema)) {
-        throw new UnexpectedTypeException(schema, "object");
+        throw new UnexpectedTypeException(schema, 'object');
     }
     const groups = options.groups || [GROUP_DEFAULT];
     Object.keys(schema).forEach(validatePath => {
         let validators = schema[validatePath];
-        const validationPaths = getValidationPaths(
-            data,
-            validatePath,
-            sfvalidate.iterator
-        );
+        const validationPaths = getValidationPaths(data, validatePath, sfvalidate.iterator);
         validationPaths.forEach(path => {
             const value = get(data, path);
             if (isFunction(validators)) {
-                const returnedValidators = validators(
-                    value,
-                    path,
-                    data,
-                    schema,
-                    errors
-                );
+                const returnedValidators = validators(value, path, data, schema, errors);
                 if (isObject(returnedValidators)) {
                     validators = returnedValidators;
                 }
@@ -55,7 +45,7 @@ const validate = (data, schema, options = {}, errors = {}) => {
                         path,
                         data,
                         schema,
-                        options
+                        options,
                     });
                     if (error) {
                         if (!errors[path]) {

@@ -1,1 +1,1 @@
-export const GROUP_DEFAULT = "default";
+export const GROUP_DEFAULT = 'default';

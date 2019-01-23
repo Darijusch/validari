@@ -3,13 +3,17 @@
 module.exports = {
     parserOptions: { ecmaVersion: 2017, sourceType: 'module' },
     extends: ['eslint:recommended', 'prettier'],
-    plugins: ['prettier', 'import'],
+    plugins: ['prettier', 'import', 'jest'],
     settings: {
         'import/extensions': ['.js'],
     },
     rules: {
+        'jest/no-disabled-tests': 'warn',
+        'jest/no-focused-tests': 'error',
+        'jest/no-identical-title': 'error',
+        'jest/prefer-to-have-length': 'warn',
+        'jest/valid-expect': 'error',
         camelcase: 'error',
-        'consistent-return': 'error',
         'dot-notation': ['error', { allowKeywords: true }],
         eqeqeq: ['error', 'always', { null: 'ignore' }],
         'guard-for-in': 'error',
@@ -126,5 +130,6 @@ module.exports = {
     env: {
         es6: true,
         node: true,
+        'jest/globals': true
     },
 };
