@@ -13,4 +13,3 @@ TODOs
 - write documentation
 - add more symfony validators
 - add more handling when passing invalid data types for parameters/values
-- add code style and format code 

@@ -2,17 +2,12 @@
 
 module.exports = {
     parserOptions: { ecmaVersion: 2017, sourceType: 'module' },
-    extends: ['eslint:recommended', 'prettier'],
+    extends: ['eslint:recommended', 'prettier', 'plugin:jest/recommended'],
     plugins: ['prettier', 'import', 'jest'],
     settings: {
         'import/extensions': ['.js'],
     },
     rules: {
-        'jest/no-disabled-tests': 'warn',
-        'jest/no-focused-tests': 'error',
-        'jest/no-identical-title': 'error',
-        'jest/prefer-to-have-length': 'warn',
-        'jest/valid-expect': 'error',
         camelcase: 'error',
         'dot-notation': ['error', { allowKeywords: true }],
         eqeqeq: ['error', 'always', { null: 'ignore' }],
