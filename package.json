@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "author": "Darijusch Behbahani <dari@gosus.com>",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "scripts": {
     "build": "webpack",
     "watch": "webpack --config webpack.dev.config.js --watch",
