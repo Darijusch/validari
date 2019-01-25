@@ -4,8 +4,8 @@ validari is a library to validate objects, i came up with the name from valid + 
 
 Build
 -----
-[![Build Status](https://travis-ci.org/Darijusch/sfvalidate.svg?branch=master)](https://travis-ci.org/Darijusch/sfvalidate)
-[![Coverage Status](https://coveralls.io/repos/github/Darijusch/sfvalidate/badge.svg?branch=master)](https://coveralls.io/github/Darijusch/sfvalidate?branch=master)
+[![Build Status](https://travis-ci.org/Darijusch/validari.svg?branch=master)](https://travis-ci.org/Darijusch/validari)
+[![Coverage Status](https://coveralls.io/repos/github/Darijusch/validari/badge.svg?branch=master)](https://coveralls.io/github/Darijusch/validari?branch=master)
 
 TODOs
 ----- 
