@@ -1,4 +1,6 @@
 {
+  "name": "validari",
+  "description": "Light validation library with symfony compatible constraints",
   "license": "MIT",
   "author": "Darijusch Behbahani <dari@gosus.com>",
   "version": "0.1.0",

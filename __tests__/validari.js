@@ -1,16 +1,16 @@
-import sfvalidate from '../src/sfvalidate';
+import validari from '../src/validari';
 
-describe('sfvalidate', () => {
+describe('validari', () => {
     test('wrong data type for data', () => {
-        expect(() => sfvalidate.validate()).toThrow('Expected argument of type "object", "undefined" given');
+        expect(() => validari.validate()).toThrow('Expected argument of type "object", "undefined" given');
     });
     test('wrong data type for validator schema', () => {
-        expect(() => sfvalidate.validate({})).toThrow('Expected argument of type "object", "undefined" given');
+        expect(() => validari.validate({})).toThrow('Expected argument of type "object", "undefined" given');
     });
 
     test('validate entity', () => {
         expect(
-            sfvalidate.validate(
+            validari.validate(
                 {
                     test: 'value',
                     foo: [
@@ -67,7 +67,7 @@ describe('sfvalidate', () => {
 
     test('validate entity with result is not object for validator response', () => {
         expect(
-            sfvalidate.validate(
+            validari.validate(
                 {
                     funcTest: 'test',
                 },
@@ -80,7 +80,7 @@ describe('sfvalidate', () => {
 
     test('validate entity with non existing validator', () => {
         expect(
-            sfvalidate.validate(
+            validari.validate(
                 {
                     foo: 'bar',
                 },
@@ -95,7 +95,7 @@ describe('sfvalidate', () => {
 
     test('validate entity with groups', () => {
         expect(
-            sfvalidate.validate(
+            validari.validate(
                 {
                     test: 'value',
                     foo: [

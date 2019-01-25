@@ -4,7 +4,7 @@ import { GROUP_DEFAULT } from './utils/constants';
 import { isFunction, isObject, hasIntersection, get } from './utils';
 import { UnexpectedTypeException } from './constraints/exceptions';
 
-const sfvalidate = {
+const validari = {
     constraints,
     iterator: '$',
     validate: null,
@@ -20,7 +20,7 @@ const validate = (data, schema, options = {}, errors = {}) => {
     const groups = options.groups || [GROUP_DEFAULT];
     Object.keys(schema).forEach(validatePath => {
         let validators = schema[validatePath];
-        const validationPaths = getValidationPaths(data, validatePath, sfvalidate.iterator);
+        const validationPaths = getValidationPaths(data, validatePath, validari.iterator);
         validationPaths.forEach(path => {
             const value = get(data, path);
             if (isFunction(validators)) {
@@ -37,7 +37,7 @@ const validate = (data, schema, options = {}, errors = {}) => {
                 if (!hasIntersection(groups, validatorGroups)) {
                     return;
                 }
-                const validator = sfvalidate.constraints[validatorName];
+                const validator = validari.constraints[validatorName];
                 if (validator) {
                     const error = validator(value, validatorOptions, {
                         validate,
@@ -60,6 +60,6 @@ const validate = (data, schema, options = {}, errors = {}) => {
     return errors;
 };
 
-sfvalidate.validate = validate;
+validari.validate = validate;
 
-export default sfvalidate;
+export default validari;
